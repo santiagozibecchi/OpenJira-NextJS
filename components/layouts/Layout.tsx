@@ -1,7 +1,7 @@
 import { FC, PropsWithChildren } from "react";
 import { Box } from "@mui/material";
 import Head from "next/head";
-import { Navbar } from "../ui";
+import { Navbar, SideBar } from "../ui";
 
 // sx es lo mismo que style pero este tiene acceso al theme
 
@@ -20,7 +20,7 @@ export const Layout: FC<PropsWithChildren<Props>> = ({
          </Head>
 
          <Navbar />
-         {/* Sidebar */}
+         <SideBar />
 
          <Box sx={{ padding: "10px 20px" }}>{children}</Box>
       </Box>
