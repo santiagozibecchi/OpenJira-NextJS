@@ -23,6 +23,9 @@ export const NewEntry = () => {
       if (inputValue.length === 0) return;
 
       addNewEntry(inputValue);
+      setIsAdding(false);
+      setTouched(false);
+      setInputValue("");
    };
 
    return (
