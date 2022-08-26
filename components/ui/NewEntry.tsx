@@ -3,8 +3,12 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Button, TextField } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Box } from "@mui/system";
+import { useContext } from "react";
+import { EntriesContext } from "../../context/entries";
 
 export const NewEntry = () => {
+   const { addNewEntry } = useContext(EntriesContext);
+
    const [isAdding, setIsAdding] = useState(false);
    const [inputValue, setInputValue] = useState("");
    // para saber cuando se ha tocado el campo, cuando la persona entra y sale
@@ -18,7 +22,7 @@ export const NewEntry = () => {
    const onSave = () => {
       if (inputValue.length === 0) return;
 
-      console.log(inputValue);
+      addNewEntry(inputValue);
    };
 
    return (
