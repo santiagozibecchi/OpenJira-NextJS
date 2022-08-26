@@ -15,6 +15,12 @@ export const NewEntry = () => {
       setInputValue(event.target.value);
    };
 
+   const onSave = () => {
+      if (inputValue.length === 0) return;
+
+      console.log(inputValue);
+   };
+
    return (
       <Box sx={{ marginBottom: 1, paddingX: 1 }}>
          {isAdding ? (
@@ -26,9 +32,14 @@ export const NewEntry = () => {
                   autoFocus
                   multiline
                   label="Nueva entrada"
-                  helperText="Ingrese un valor"
+                  helperText={
+                     inputValue.length <= 0 && touched && "Ingrese un valor"
+                  }
+                  error={inputValue.length <= 0 && touched}
                   value={inputValue}
                   onChange={onTextFieldChanged}
+                  //   Propiedad para saber cuando pierde el foco
+                  onBlur={() => setTouched(true)}
                />
 
                <Box display="flex" justifyContent="space-between">
@@ -39,6 +50,7 @@ export const NewEntry = () => {
                      variant="outlined"
                      color="secondary"
                      endIcon={<SaveIcon />}
+                     onClick={onSave}
                   >
                      Guardar
                   </Button>
