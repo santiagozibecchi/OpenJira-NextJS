@@ -5,11 +5,14 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { Box } from "@mui/system";
 import { useContext } from "react";
 import { EntriesContext } from "../../context/entries";
+import { UIContext } from "../../context/ui";
 
 export const NewEntry = () => {
    const { addNewEntry } = useContext(EntriesContext);
+   const { setIsAddingEntry, isAddingEntry } = useContext(UIContext);
+   console.log(isAddingEntry);
 
-   const [isAdding, setIsAdding] = useState(false);
+   // const [isAdding, setIsAdding] = useState(false);
    const [inputValue, setInputValue] = useState("");
    // para saber cuando se ha tocado el campo, cuando la persona entra y sale
    // es cuando quiero ejecutar la validacion, no siempre que la persona vea el input
@@ -23,14 +26,14 @@ export const NewEntry = () => {
       if (inputValue.length === 0) return;
 
       addNewEntry(inputValue);
-      setIsAdding(false);
+      setIsAddingEntry(false);
       setTouched(false);
       setInputValue("");
    };
 
    return (
       <Box sx={{ marginBottom: 1, paddingX: 1 }}>
-         {isAdding ? (
+         {isAddingEntry ? (
             <>
                <TextField
                   fullWidth
@@ -50,7 +53,10 @@ export const NewEntry = () => {
                />
 
                <Box display="flex" justifyContent="space-between">
-                  <Button variant="text" onClick={() => setIsAdding(false)}>
+                  <Button
+                     variant="text"
+                     onClick={() => setIsAddingEntry(false)}
+                  >
                      Cancelar
                   </Button>
                   <Button
@@ -68,7 +74,7 @@ export const NewEntry = () => {
                startIcon={<AddCircleOutlineIcon />}
                fullWidth
                variant="outlined"
-               onClick={() => setIsAdding(true)}
+               onClick={() => setIsAddingEntry(true)}
             >
                Agregar tarea
             </Button>
