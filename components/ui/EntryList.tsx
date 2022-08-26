@@ -1,16 +1,19 @@
-import { DragEvent, FC, useContext } from "react";
+import { DragEvent, FC, useContext, useMemo } from "react";
 import { List, Paper } from "@mui/material";
 import { EntryCard } from "./";
 import { EntryStatus } from "../../interfaces";
 import { EntriesContext } from "../../context/entries/EntriesContext";
-import { useMemo } from "react";
+import { UIContext } from "../../context/ui";
+import styles from "./EntryList.module.css";
 
 interface Props {
    status: EntryStatus;
 }
 
 export const EntryList: FC<Props> = ({ status }) => {
+   const { isDragging } = useContext(UIContext);
    const { entries } = useContext(EntriesContext);
+
    // * Este arreglo deberia esta memorizado porque al menos que los entries cambien
    // * yo no quiero que react este generando y volviendo a barrer el filtro
    // * porque puede ser que tengamos muchas entradas y puede ser un proceso pesado
@@ -35,7 +38,11 @@ export const EntryList: FC<Props> = ({ status }) => {
 
    return (
       // allowDrop en este div vamos a permitirle caer
-      <div onDrop={onDropEntry} onDragOver={allowDrop}>
+      <div
+         onDrop={onDropEntry}
+         onDragOver={allowDrop}
+         className={isDragging ? styles.dragging : ""}
+      >
          <Paper
             sx={{
                height: "calc(100vh - 210px)",
@@ -46,7 +53,7 @@ export const EntryList: FC<Props> = ({ status }) => {
             }}
          >
             {/* TODO: cambiara dependiendo si esta haciendo drag o no */}
-            <List sx={{ opacity: 1 }}>
+            <List sx={{ opacity: isDragging ? 0.3 : 1, transition: "all .3s" }}>
                {entriesByStatus.map((entry) => (
                   <EntryCard key={entry._id} entry={entry} />
                ))}

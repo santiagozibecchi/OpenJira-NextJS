@@ -10,7 +10,6 @@ import { UIContext } from "../../context/ui";
 export const NewEntry = () => {
    const { addNewEntry } = useContext(EntriesContext);
    const { setIsAddingEntry, isAddingEntry } = useContext(UIContext);
-   console.log(isAddingEntry);
 
    // const [isAdding, setIsAdding] = useState(false);
    const [inputValue, setInputValue] = useState("");
