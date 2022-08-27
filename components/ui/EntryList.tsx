@@ -44,9 +44,7 @@ export const EntryList: FC<Props> = ({ status }) => {
          (e) => e._id === id
       )!; /* Con el ! le decimos que siempre la vamos a encontrar (en teoria) */
       // Modifico la propiedad del status de entry
-      console.log(
-         entry
-      ); /* // * En este punto es verdad que la propiedad status dentro de la tarea no cambio porque no le estamos diciendo que lo modifique pero en la siguiente linea si */
+      /* // * En este punto es verdad que la propiedad status dentro de la tarea no cambio porque no le estamos diciendo que lo modifique pero en la siguiente linea si */
       // ? Me cuesta entender como es que la prop del componente EntryList ({status}) reconoce el nuevo estado del status en entry.status = status
       // ? El tema es que este status viene de las props status y que solamente pueden ser de 3 tipos, como sabe que pertence si no lo estoy diciendo cual es exactamente ?
       entry.status = status;
