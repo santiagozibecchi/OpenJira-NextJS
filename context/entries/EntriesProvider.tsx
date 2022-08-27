@@ -33,6 +33,9 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
    const refreshEntries = async () => {
       // <Entry[]> de las interfaces porque estoy del lado del front
       const { data } = await entriesApi.get<Entry[]>("/entries");
+
+      // Disparar un proceso para cargar la data en el STATE
+      dispatch({ type: "[Entry] - Refresh-Data", payload: data });
    };
 
    useEffect(() => {
