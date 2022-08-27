@@ -23,7 +23,7 @@ export default function handler(
 const getEntries = async (res: NextApiResponse<Data>) => {
    await db.connect();
 
-   // Obtenemos todas las entradas
+   // * Obtenemos todas las entradas cuando hacemos un llamado o peticion al URL /entries
    const entries = await EntryModel.find().sort({ createdAt: "ascending" });
 
    await db.disconnect();

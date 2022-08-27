@@ -21,7 +21,7 @@ export default async function handler(
    // ! solomente se ejecuta en desarrollo ya que
    // ! En el proceso de produccion deleteMany() borraria todo!
    await EntryModel.deleteMany();
-   // Inserto las entradas a la base de datos
+   // * Inserto las entradas a la base de datos
    await EntryModel.insertMany(seedData.entries);
 
    await db.disconnect();

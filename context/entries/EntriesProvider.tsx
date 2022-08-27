@@ -39,6 +39,7 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
    };
 
    useEffect(() => {
+      // * Consumo de nuestra API para luego pasar la data al reducer y disparar la accion para actualizar el estado
       refreshEntries();
    }, []);
 
