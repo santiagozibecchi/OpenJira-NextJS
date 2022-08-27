@@ -17,6 +17,9 @@ export default async function handler(
    }
 
    await db.connect();
+   // ! No hay que subir el archivo seed al servidor -> se podria crear una copia para que los demas desarrolladores sepan que hacer
+   // ! solomente se ejecuta en desarrollo ya que
+   // ! En el proceso de produccion deleteMany() borraria todo!
    await EntryModel.deleteMany();
    // Inserto las entradas a la base de datos
    await EntryModel.insertMany(seedData.entries);
