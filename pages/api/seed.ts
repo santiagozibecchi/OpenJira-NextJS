@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db } from "../../database";
+import { db, seedData } from "../../database";
+import EntryModel from "../../models/Entry";
 
 type Data = {
    message: string;
@@ -16,6 +17,9 @@ export default async function handler(
    }
 
    await db.connect();
+   await EntryModel.deleteMany();
+   // Inserto las entradas a la base de datos
+   await EntryModel.insertMany(seedData.entries);
 
    await db.disconnect();
 

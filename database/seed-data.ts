@@ -1,7 +1,17 @@
 // El seed-data es la informacion que quiero insertar de manera
 // automatica
 
-export const seedData = {
+interface SeedData {
+   entries: SeedEntry[];
+}
+
+interface SeedEntry {
+   description: string;
+   status: string;
+   createdAt: number;
+}
+
+export const seedData: SeedData = {
    entries: [
       {
          description: "PENDIENTE: Ipsum laborum nulla ex laborum.",
