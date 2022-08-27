@@ -2,15 +2,15 @@ import { FC, PropsWithChildren, useReducer } from "react";
 import { UIContext, uiReducer } from "./";
 // InitialState
 export interface UIState {
-   sideMenuOpen: boolean;
    isAddingEntry: boolean;
    isDragging: boolean;
+   sideMenuOpen: boolean;
 }
 
 const UI_INITIAL_STATE: UIState = {
-   sideMenuOpen: false,
    isAddingEntry: false,
    isDragging: false,
+   sideMenuOpen: false,
 };
 
 export const UIProvider: FC<PropsWithChildren> = ({ children }) => {
@@ -42,12 +42,12 @@ export const UIProvider: FC<PropsWithChildren> = ({ children }) => {
             ...state,
 
             // Methods
-            openSideMenu,
             closeSideMenu,
+            openSideMenu,
 
+            endDragging,
             setIsAddingEntry,
             startDragging,
-            endDragging,
          }}
       >
          {children}

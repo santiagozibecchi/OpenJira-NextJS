@@ -15,19 +15,17 @@ interface Props {
 
 export const EntryCard: FC<Props> = ({ entry }) => {
    const { startDragging, endDragging, isDragging } = useContext(UIContext);
-   console.log(isDragging);
 
    // El evento ya tiene una forma de saber o colocarle un tipo de payload al evento drag
    const onDragStart = (event: DragEvent) => {
       // console.log(event); =>
-      // TODO ! modificar el estado para saber que estoy haciendo drag
+      // TODO (TERMINADO) con setData guardo mediante el atributo "text" el id de la tarea
       event.dataTransfer.setData("text", entry._id);
       startDragging();
    };
 
    const onDragEnd = () => {
-      // Todo: cancelar el drag
-      console.log("End dragging");
+      // TODO (TERMINADO) cancelar el drag
       endDragging();
    };
 
