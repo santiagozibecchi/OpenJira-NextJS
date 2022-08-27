@@ -50,6 +50,8 @@ export const EntryList: FC<Props> = ({ status }) => {
       // ? Me cuesta entender como es que la prop del componente EntryList ({status}) reconoce el nuevo estado del status en entry.status = status
       // ? El tema es que este status viene de las props status y que solamente pueden ser de 3 tipos, como sabe que pertence si no lo estoy diciendo cual es exactamente ?
       entry.status = status;
+      // * CADA COLUMNA O LISTA DE TAREA YA TIENE POR DEFECTO O EN DURO UN SOLO STATUS, POR ESO ES QUE CUANDO MOVEMOS A OTRA COLUMNA SOLAMENTE PUEDE CAER EN UN ESTADO
+      // * Al dejar caer una una de las listas <=> El status es 'in-progress' | 'pending' | 'finished'
       // console.log(entry);
       updateEntry(entry);
       endDragging();
