@@ -1,4 +1,6 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
+import { GetServerSideProps } from "next";
+
 import { Layout } from "../../components/layouts/Layout";
 import {
    capitalize,
@@ -126,6 +128,19 @@ const EntryPage = () => {
          </IconButton>
       </Layout>
    );
+};
+
+// You should use getServerSideProps when:
+// - Only if you need to pre-render a page whose data must be fetched at request time
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+   // En este punto inclusive podriamos hacer la coneccion y la peticion de la informacion de forma directa
+   // No tiene sentido realizar una peticion a la base de datos si estamos en el mismo backend
+   
+
+   return {
+      props: {},
+   };
 };
 
 export default EntryPage;
