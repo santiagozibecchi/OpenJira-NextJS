@@ -47,14 +47,27 @@ const updateEntry = async (res: NextApiResponse<Data>, req: NextApiRequest) => {
       status = entryToUpdate.status,
    } = req.body;
 
-   const updatedEntry = await EntryModel.findByIdAndUpdate(
-      id,
-      {
-         description,
-         status,
-      },
-      { runValidators: true, new: true }
-   );
+   try {
+      // Esta es mas pesada porque estoy volviendo a hacer una peticion a la DB
+      const updatedEntry = await EntryModel.findByIdAndUpdate(
+         id,
+         {
+            description,
+            status,
+         },
+         { runValidators: true, new: true }
+      );
 
-   return res.status(200).json(updatedEntry!);
+      await db.disconnect();
+      // OTRA FORMA DE ACTUALIZAR - MAS EFICIENTE
+      // entryToUpdate.description = description
+      // entryToUpdate.status = status
+      // await entryToUpdate.save()
+
+      return res.status(200).json(updatedEntry!);
+   } catch (error: any) {
+      console.log(error);
+      await db.disconnect();
+      res.status(400).json({ message: error.errors.status.message });
+   }
 };
