@@ -19,6 +19,8 @@ export default function handler(
    switch (req.method) {
       case "PUT":
          return updateEntry(res, req);
+      case "GET":
+         return getEntry(req, res);
 
       default:
          return res.status(400).json({ message: "Endpoint no existe" });
@@ -69,5 +71,29 @@ const updateEntry = async (res: NextApiResponse<Data>, req: NextApiRequest) => {
       console.log(error);
       await db.disconnect();
       res.status(400).json({ message: error.errors.status.message });
+   }
+};
+
+const getEntry = async (req: NextApiRequest, res: NextApiResponse) => {
+   // TAREA
+   // Extraer el id de la URL
+   // Verificar si el id existe en la DB
+
+   const { id } = req.query;
+
+   await db.connect();
+
+   try {
+      const entryFound = await EntryModel.findById(id);
+
+      if (!entryFound) {
+         await db.disconnect();
+         return res.status(400).json({ message: "No existe id seleccionado" });
+      }
+
+      await db.disconnect();
+      return res.status(200).json(entryFound);
+   } catch (error) {
+      console.log(error);
    }
 };

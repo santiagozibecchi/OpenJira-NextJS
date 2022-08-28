@@ -39,7 +39,6 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
             description,
             status,
          });
-         console.log(data);
 
          dispatch({ type: "[Entry] - Entry-Updated", payload: data });
       } catch (error) {
