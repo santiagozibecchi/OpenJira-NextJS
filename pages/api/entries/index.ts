@@ -18,9 +18,9 @@ export default function handler(
 
       case "POST":
          return postEntry(
-            req,
+            req /* El la request viene el body de la peticion, con la data */,
             res
-         ); /* El la request viene el body de la peticion, con la data */
+         );
 
       default:
          return res.status(400).json({ message: "Endpoint no existe" });
