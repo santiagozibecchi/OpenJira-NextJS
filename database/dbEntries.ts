@@ -14,5 +14,5 @@ export const getEntryById = async (id: string): Promise<IEntry | null> => {
 
    // Puede existir dos paranoramos: que la informacion llegue o no
 
-   return entry;
+   return JSON.parse(JSON.stringify(entry));
 };
