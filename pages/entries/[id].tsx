@@ -30,11 +30,9 @@ interface Props {
    entry: Entry;
 }
 
-const EntryPage: FC = (props) => {
-   console.log({ props });
-
-   const [inputValue, setInputValue] = useState("");
-   const [status, setStatus] = useState<EntryStatus>("pending");
+const EntryPage: FC<Props> = ({ entry }) => {
+   const [inputValue, setInputValue] = useState(entry.description);
+   const [status, setStatus] = useState<EntryStatus>(entry.status);
    const [touched, setTouched] = useState(false);
 
    // Al menos de que el inputValue o el touched cambien isNotValid cambiara
@@ -58,7 +56,7 @@ const EntryPage: FC = (props) => {
    };
 
    return (
-      <Layout title="...">
+      <Layout title={inputValue.substring(0, 20) + "..."}>
          <Grid
             container
             justifyContent="center"
@@ -69,8 +67,8 @@ const EntryPage: FC = (props) => {
             <Grid item xs={12} sm={8} md={6}>
                <Card>
                   <CardHeader
-                     title={`Entrada: ${inputValue}`}
-                     subheader={`Creada en ... minutos`}
+                     title={`Entrada:`}
+                     subheader={`Creada hace ${entry.createdAt} minutos`}
                   />
                   <CardContent>
                      <TextField
@@ -161,12 +159,12 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
    }
    // Por lo tanto si tenemos un valor en la entrada: enviaos el valor => entry
    // Al pasar por props en necesario que la informacion llegue serializada como un string
-   // mongoose nos devuelve un objectId(215151), lo que generara un error que hay que resolver 
+   // mongoose nos devuelve un objectId(215151), lo que generara un error que hay que resolver
    // de la siguiente forma
    return {
       // * Estas props son enviadas al componente
       props: {
-
+         entry,
       },
    };
 };
