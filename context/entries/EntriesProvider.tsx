@@ -1,5 +1,6 @@
 import { FC, PropsWithChildren, useEffect, useReducer } from "react";
 // import { v4 as uuidv4 } from "uuid";
+import { useSnackbar } from "notistack";
 import { entriesApi } from "../../apis";
 import { Entry } from "../../interfaces";
 import { EntriesContext, entriesReducer } from "./";
@@ -15,6 +16,7 @@ const Entries_INITIAL_STATE: EntriesState = {
 
 export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
    const [state, dispatch] = useReducer(entriesReducer, Entries_INITIAL_STATE);
+   const { enqueueSnackbar } = useSnackbar();
 
    const addNewEntry = async (description: string) => {
       // const newEntry: Entry = {
@@ -32,7 +34,10 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
       dispatch({ type: "[Entry] - Add-Entry", payload: data });
    };
 
-   const updateEntry = async ({ _id, description, status }: Entry) => {
+   const updateEntry = async (
+      { _id, description, status }: Entry,
+      showSnackBar = false
+   ) => {
       try {
          // Solo se debe actualizar si obtenemos una respuesta exitosa desde el backend
          const { data } = await entriesApi.put<Entry>(`/entries/${_id}`, {
@@ -43,8 +48,17 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
          dispatch({ type: "[Entry] - Entry-Updated", payload: data });
 
          // En este punto la entrada ya se ha actualizado
-         
 
+         if (showSnackBar) {
+            enqueueSnackbar("Entrada actualizada", {
+               variant: "success",
+               autoHideDuration: 1500,
+               anchorOrigin: {
+                  vertical: "top",
+                  horizontal: "right",
+               },
+            });
+         }
       } catch (error) {
          console.log(error);
       }

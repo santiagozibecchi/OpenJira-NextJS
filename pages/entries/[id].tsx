@@ -64,7 +64,8 @@ const EntryPage: FC<Props> = ({ entry }) => {
       };
 
       // Mando al backend para impactar en la base de datos
-      updateEntry(updatedEntry);
+      const showSnackBar = true;
+      updateEntry(updatedEntry, showSnackBar);
    };
 
    return (
