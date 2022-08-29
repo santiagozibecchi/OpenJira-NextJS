@@ -1,7 +1,6 @@
-import React, { ChangeEvent, FC, useMemo, useState } from "react";
+import React, { ChangeEvent, FC, useContext, useMemo, useState } from "react";
 import { GetServerSideProps } from "next";
 
-import { Layout } from "../../components/layouts/Layout";
 import {
    capitalize,
    Button,
@@ -18,10 +17,13 @@ import {
    TextField,
    IconButton,
 } from "@mui/material";
-import { dbEntries } from "../../database";
 
 import SaveAsOutlinedIcon from "@mui/icons-material/SaveAsOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+
+import { EntriesContext } from "../../context/entries/EntriesContext";
+import { dbEntries } from "../../database";
+import { Layout } from "../../components/layouts/Layout";
 import { Entry, EntryStatus } from "../../interfaces";
 
 const validStatus: EntryStatus[] = ["pending", "in-progress", "finished"];
@@ -31,6 +33,8 @@ interface Props {
 }
 
 const EntryPage: FC<Props> = ({ entry }) => {
+   const { updateEntry } = useContext(EntriesContext);
+
    const [inputValue, setInputValue] = useState(entry.description);
    const [status, setStatus] = useState<EntryStatus>(entry.status);
    const [touched, setTouched] = useState(false);
@@ -51,8 +55,16 @@ const EntryPage: FC<Props> = ({ entry }) => {
    };
 
    const onSave = () => {
-      if (inputValue === "") {
-      }
+      if (inputValue.trim().length === 0) return;
+
+      const updatedEntry: Entry = {
+         ...entry,
+         status,
+         description: inputValue,
+      };
+
+      // Mando al backend para impactar en la base de datos
+      updateEntry(updatedEntry);
    };
 
    return (
