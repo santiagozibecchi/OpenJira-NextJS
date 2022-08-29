@@ -18,14 +18,17 @@ import {
    TextField,
    IconButton,
 } from "@mui/material";
+import { dbEntries } from "../../database";
+
 import SaveAsOutlinedIcon from "@mui/icons-material/SaveAsOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
-import { EntryStatus } from "../../interfaces";
-import { isValidObjectId } from "mongoose";
+import { Entry, EntryStatus } from "../../interfaces";
 
 const validStatus: EntryStatus[] = ["pending", "in-progress", "finished"];
 
-interface Props {}
+interface Props {
+   entry: Entry;
+}
 
 const EntryPage: FC = (props) => {
    console.log({ props });
@@ -145,7 +148,9 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
    // si alguien entra por una ruta no valida tengo que sacarla
    const { id } = params as { id: string };
 
-   if (!isValidObjectId(id)) {
+   const entry = await dbEntries.getEntryById(id); /* // ! Puede ser NULO */
+
+   if (!entry) {
       return {
          redirect: {
             destination: "/",
@@ -154,11 +159,11 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
          },
       };
    }
-
+   // Por lo tanto si tenemos un valor en la entrada: enviaos el valor => entry
    return {
       // * Estas props son enviadas al componente
       props: {
-         id,
+         
       },
    };
 };
