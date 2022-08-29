@@ -160,10 +160,13 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       };
    }
    // Por lo tanto si tenemos un valor en la entrada: enviaos el valor => entry
+   // Al pasar por props en necesario que la informacion llegue serializada como un string
+   // mongoose nos devuelve un objectId(215151), lo que generara un error que hay que resolver 
+   // de la siguiente forma
    return {
       // * Estas props son enviadas al componente
       props: {
-         
+
       },
    };
 };
