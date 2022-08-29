@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useMemo, useState } from "react";
+import React, { ChangeEvent, FC, useMemo, useState } from "react";
 import { GetServerSideProps } from "next";
 
 import { Layout } from "../../components/layouts/Layout";
@@ -21,10 +21,15 @@ import {
 import SaveAsOutlinedIcon from "@mui/icons-material/SaveAsOutlined";
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { EntryStatus } from "../../interfaces";
+import { isValidObjectId } from "mongoose";
 
 const validStatus: EntryStatus[] = ["pending", "in-progress", "finished"];
 
-const EntryPage = () => {
+interface Props {}
+
+const EntryPage: FC = (props) => {
+   console.log({ props });
+
    const [inputValue, setInputValue] = useState("");
    const [status, setStatus] = useState<EntryStatus>("pending");
    const [touched, setTouched] = useState(false);
@@ -133,14 +138,33 @@ const EntryPage = () => {
 // You should use getServerSideProps when:
 // - Only if you need to pre-render a page whose data must be fetched at request time
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps = async ({ params }) => {
    // En este punto inclusive podriamos hacer la coneccion y la peticion de la informacion de forma directa
    // No tiene sentido realizar una peticion a la base de datos si estamos en el mismo backend
-   
+
+   // si alguien entra por una ruta no valida tengo que sacarla
+   const { id } = params as { id: string };
+
+   if (!isValidObjectId(id)) {
+      return {
+         redirect: {
+            destination: "/",
+            permanent:
+               false /* porque la pagina sigue existiendo porque si la dejamos en true le estariaos diciendo a los bots de google que esta pagina no existira nunca mas */,
+         },
+      };
+   }
 
    return {
-      props: {},
+      // * Estas props son enviadas al componente
+      props: {
+         id,
+      },
    };
 };
+
+// * getServerSideProps:
+// solo cuando la persona hace el request -> la pagina es renderizada bajo demanda del usuario
+// Next recomienda hasta donde sea posible trabajar con path y paginas estaticas
 
 export default EntryPage;
