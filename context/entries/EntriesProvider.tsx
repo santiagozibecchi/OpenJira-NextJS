@@ -64,11 +64,17 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
       }
    };
 
+   // ! TODO
+   const deleteEntry = async ({ _id }: Entry) => {
+      const { data } = await entriesApi.delete<Entry[]>(`/entries/${_id}`);
+      dispatch({ type: "[Entry] - Delete-Entry", payload: data });
+   };
+
    const refreshEntries = async () => {
       // <Entry[]> de las interfaces porque estoy del lado del front
       const { data } = await entriesApi.get<Entry[]>("/entries");
 
-      // Disparar un proceso para cargar la data en el STATE
+      // Disparar un proceso para cargar la nueva data en el STATE
       dispatch({ type: "[Entry] - Refresh-Data", payload: data });
    };
 
@@ -83,6 +89,7 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
             ...state,
             addNewEntry,
             updateEntry,
+            deleteEntry,
          }}
       >
          {children}
