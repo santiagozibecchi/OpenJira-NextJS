@@ -1,5 +1,6 @@
 import React, { ChangeEvent, FC, useContext, useMemo, useState } from "react";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
 import {
    capitalize,
@@ -40,6 +41,8 @@ const EntryPage: FC<Props> = ({ entry }) => {
    const [status, setStatus] = useState<EntryStatus>(entry.status);
    const [touched, setTouched] = useState(false);
 
+   const router = useRouter();
+
    // Al menos de que el inputValue o el touched cambien isNotValid cambiara
    const isNotValid = useMemo(
       () => inputValue.length <= 0 && touched,
@@ -71,6 +74,7 @@ const EntryPage: FC<Props> = ({ entry }) => {
 
    const onDeleteEntry = () => {
       deleteEntry(entry._id);
+      router.push("/");
    };
 
    return (
