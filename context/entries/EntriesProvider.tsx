@@ -65,8 +65,9 @@ export const EntriesProvider: FC<PropsWithChildren> = ({ children }) => {
    };
 
    // ! TODO
-   const deleteEntry = async ({ _id }: Entry) => {
-      const { data } = await entriesApi.delete<Entry[]>(`/entries/${_id}`);
+   const deleteEntry = async (id: string) => {
+      const { data } = await entriesApi.delete<Entry>(`/entries/${id}`);
+      console.log(data);
       dispatch({ type: "[Entry] - Delete-Entry", payload: data });
    };
 

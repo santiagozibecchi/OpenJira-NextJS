@@ -10,6 +10,6 @@ interface ContextProps {
       { _id, description, status }: Entry,
       showSnackBar?: boolean
    ) => Promise<void>;
-   deleteEntry: ({ _id }: Entry) => Promise<void>;
+   deleteEntry: (id: string) => Promise<void>;
 }
 export const EntriesContext = createContext({} as ContextProps);

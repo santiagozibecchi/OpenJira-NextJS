@@ -34,7 +34,7 @@ interface Props {
 }
 
 const EntryPage: FC<Props> = ({ entry }) => {
-   const { updateEntry } = useContext(EntriesContext);
+   const { updateEntry, deleteEntry } = useContext(EntriesContext);
 
    const [inputValue, setInputValue] = useState(entry.description);
    const [status, setStatus] = useState<EntryStatus>(entry.status);
@@ -69,6 +69,10 @@ const EntryPage: FC<Props> = ({ entry }) => {
       updateEntry(updatedEntry, showSnackBar);
    };
 
+   const onDeleteEntry = () => {
+      deleteEntry(entry._id);
+   };
+
    return (
       <Layout title={inputValue.substring(0, 20) + "..."}>
          <Grid
@@ -82,7 +86,9 @@ const EntryPage: FC<Props> = ({ entry }) => {
                <Card>
                   <CardHeader
                      title={`Entrada:`}
-                     subheader={`Creada ${dateFunctions.getFormatDistanceToNow(entry.createdAt)}`}
+                     subheader={`Creada ${dateFunctions.getFormatDistanceToNow(
+                        entry.createdAt
+                     )}`}
                   />
                   <CardContent>
                      <TextField
@@ -143,6 +149,7 @@ const EntryPage: FC<Props> = ({ entry }) => {
                right: 30,
                backgroundColor: "error.dark",
             }}
+            onClick={onDeleteEntry}
          >
             <DeleteOutlinedIcon />
          </IconButton>
